@@ -42,7 +42,7 @@ def update_course_details(db: Session, path: str, updated_details: CourseDetails
     return {
         "id": course.id,
         "path": course.path,
-        "data": json.loads(course.data)
+        "data": course.data
     }
 
 def delete_course_details(db: Session, path: str):
