@@ -14,22 +14,17 @@ class CourseCreate(CourseBase):
 
 class CourseOut(CourseBase):
     id: int
-
     class Config:
-        from_attributes = True  # Required for SQLAlchemy → Pydantic conversion
-
+        from_attributes = True
 
 class CourseDetailsBase(BaseModel):
     path: str
-    data: Any  # Store the full structured JSON
+    data: Any
 
 class CourseDetailsCreate(CourseDetailsBase):
     pass
 
 class CourseDetailsOut(CourseDetailsBase):
     id: int
-
     class Config:
         orm_mode = True
-        
-        
