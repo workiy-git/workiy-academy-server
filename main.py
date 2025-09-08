@@ -1,12 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from config import CORS_ORIGINS
-from routers import course_router
+from routers.course import router as course_router
 
 
 # FastAPI App
 app = FastAPI()
-
 
 # Add CORS middleware using config
 app.add_middleware(
