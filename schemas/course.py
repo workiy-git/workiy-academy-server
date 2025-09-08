@@ -7,6 +7,8 @@ class CourseBase(BaseModel):
     duration: str
     image: str
     level: str
+    rating: int
+    lessons: str
     path: str
 
 class CourseCreate(CourseBase):
@@ -17,14 +19,3 @@ class CourseOut(CourseBase):
     class Config:
         from_attributes = True
 
-class CourseDetailsBase(BaseModel):
-    path: str
-    data: Any
-
-class CourseDetailsCreate(CourseDetailsBase):
-    pass
-
-class CourseDetailsOut(CourseDetailsBase):
-    id: int
-    class Config:
-        orm_mode = True
