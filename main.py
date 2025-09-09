@@ -1,4 +1,3 @@
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from config import CORS_ORIGINS
@@ -6,6 +5,7 @@ from routers.course import router as course_router
 from routers.courseDetails import router as course_details_router
 from routers.newsletter import router as newsletter_router
 from routers.enquiry import router as enquiry_router
+from routers.internship import router as internship_router
 from database import Base, engine
 
 
@@ -32,6 +32,7 @@ app.include_router(course_router)
 app.include_router(course_details_router)
 app.include_router(newsletter_router)
 app.include_router(enquiry_router)
+app.include_router(internship_router)
 
 @app.get("/")
 def root():
