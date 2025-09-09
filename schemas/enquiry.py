@@ -1,5 +1,3 @@
-
-
 from pydantic import BaseModel, EmailStr
 
 class EnquiryCreate(BaseModel):
@@ -8,4 +6,3 @@ class EnquiryCreate(BaseModel):
 	email: EmailStr
 	phone: str
 	message: str
-
