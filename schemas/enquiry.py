@@ -6,3 +6,9 @@ class EnquiryCreate(BaseModel):
 	email: EmailStr
 	phone: str
 	message: str
+
+class EnquiryOut(EnquiryCreate):
+	id: int
+
+	class Config:
+		orm_mode = True
