@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 
 # Determine environment and load appropriate .env file
-env = os.getenv("ENV", "local")
+env = os.getenv("ENV", "prod")
 if env == "prod":
     load_dotenv(".env.prod")
 else:
