@@ -1,29 +1,34 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from schemas.enquiry import EnquiryCreate
+from schemas.enquiry import EnquiryCreate, EnquiryOut
 from crud.enquiry import create_enquiry
 from database import get_db
 from models.enquiry import Enquiry
 from typing import List
 
 router = APIRouter()
-@router.post("/enquiry", response_model=EnquiryCreate)
+
+# Create enquiry
+@router.post("/enquiry", response_model=EnquiryOut)
 def submit_enquiry(enquiry: EnquiryCreate, db: Session = Depends(get_db)):
     db_enquiry = create_enquiry(db, enquiry)
     return db_enquiry
-# GET method to retrieve all enquiries
-@router.get("/enquiry", response_model=List[EnquiryCreate])
+
+# Get all enquiries
+@router.get("/enquiry", response_model=List[EnquiryOut])
 def get_enquiries(db: Session = Depends(get_db)):
     return db.query(Enquiry).all()
-# GET method to retrieve enquiry by phone number
-@router.get("/enquiry/by-phone/{phone}", response_model=EnquiryCreate)
+
+# Get enquiry by phone number
+@router.get("/enquiry/by-phone/{phone}", response_model=EnquiryOut)
 def get_enquiry_by_phone(phone: str, db: Session = Depends(get_db)):
     db_enquiry = db.query(Enquiry).filter(Enquiry.phone == phone).first()
     if not db_enquiry:
         raise HTTPException(status_code=404, detail="Enquiry not found")
     return db_enquiry
+
 # Update enquiry by phone number
-@router.put("/enquiry/by-phone/{phone}", response_model=EnquiryCreate)
+@router.put("/enquiry/by-phone/{phone}", response_model=EnquiryOut)
 def update_enquiry_by_phone(phone: str, enquiry: EnquiryCreate, db: Session = Depends(get_db)):
     db_enquiry = db.query(Enquiry).filter(Enquiry.phone == phone).first()
     if not db_enquiry:
@@ -36,6 +41,7 @@ def update_enquiry_by_phone(phone: str, enquiry: EnquiryCreate, db: Session = De
     db.commit()
     db.refresh(db_enquiry)
     return db_enquiry
+
 # Delete enquiry by phone number
 @router.delete("/enquiry/by-phone/{phone}", response_model=dict)
 def delete_enquiry_by_phone(phone: str, db: Session = Depends(get_db)):
