@@ -6,7 +6,7 @@ from schemas.newsletter import NewsletterCreate, NewsletterUpdate, NewsletterOut
 
 router = APIRouter(prefix="/api/newsletter", tags=["Newsletter"])
 
-@router.post("/", response_model=NewsletterOut)
+@router.post("", response_model=NewsletterOut)
 def create_newsletter(newsletter: NewsletterCreate, db: Session = Depends(get_db)):
     db_newsletter = Newsletter(email=newsletter.email)
     db.add(db_newsletter)
@@ -18,7 +18,7 @@ def create_newsletter(newsletter: NewsletterCreate, db: Session = Depends(get_db
         raise HTTPException(status_code=400, detail="Email already exists.")
     return db_newsletter
 
-@router.get("/", response_model=list[NewsletterOut])
+@router.get("", response_model=list[NewsletterOut])
 def get_newsletters(db: Session = Depends(get_db)):
     return db.query(Newsletter).all()
 

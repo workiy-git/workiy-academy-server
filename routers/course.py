@@ -13,12 +13,12 @@ from crud.course import (
 
 router = APIRouter(prefix="/api/courses", tags=["courses"])
 
-@router.post("/", response_model=CourseOut)
+@router.post("", response_model=CourseOut)
 def create_course(course: CourseCreate, db: Session = Depends(get_db)):
     db_course = create_course_crud(course, db)
     return db_course
 
-@router.get("/", response_model=list[CourseOut])
+@router.get("", response_model=list[CourseOut])
 def get_courses(db: Session = Depends(get_db)):
     return get_courses_crud(db)
 

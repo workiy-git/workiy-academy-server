@@ -12,13 +12,13 @@ router = APIRouter(
 )
 
 # Create enquiry
-@router.post("/", response_model=EnquiryOut)
+@router.post("", response_model=EnquiryOut)
 def submit_enquiry(enquiry: EnquiryCreate, db: Session = Depends(get_db)):
     db_enquiry = create_enquiry(db, enquiry)
     return db_enquiry
 
 # Get all enquiries
-@router.get("/", response_model=List[EnquiryOut])
+@router.get("", response_model=List[EnquiryOut])
 def get_enquiries(db: Session = Depends(get_db)):
     return db.query(Enquiry).all()
 
