@@ -7,6 +7,7 @@ from routers.newsletter import router as newsletter_router
 from routers.enquiry import router as enquiry_router
 from routers.internship import router as internship_router
 from database import Base, engine
+import models
 
 
 # FastAPI App

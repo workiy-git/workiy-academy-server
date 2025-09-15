@@ -6,21 +6,24 @@ from database import get_db
 from models.enquiry import Enquiry
 from typing import List
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/api/enquiry",
+    tags=["enquiry"]
+)
 
 # Create enquiry
-@router.post("/enquiry", response_model=EnquiryOut)
+@router.post("/", response_model=EnquiryOut)
 def submit_enquiry(enquiry: EnquiryCreate, db: Session = Depends(get_db)):
     db_enquiry = create_enquiry(db, enquiry)
     return db_enquiry
 
 # Get all enquiries
-@router.get("/enquiry", response_model=List[EnquiryOut])
+@router.get("/", response_model=List[EnquiryOut])
 def get_enquiries(db: Session = Depends(get_db)):
     return db.query(Enquiry).all()
 
 # Get enquiry by phone number
-@router.get("/enquiry/by-phone/{phone}", response_model=EnquiryOut)
+@router.get("/by-phone/{phone}", response_model=EnquiryOut)
 def get_enquiry_by_phone(phone: str, db: Session = Depends(get_db)):
     db_enquiry = db.query(Enquiry).filter(Enquiry.phone == phone).first()
     if not db_enquiry:
@@ -28,7 +31,7 @@ def get_enquiry_by_phone(phone: str, db: Session = Depends(get_db)):
     return db_enquiry
 
 # Update enquiry by phone number
-@router.put("/enquiry/by-phone/{phone}", response_model=EnquiryOut)
+@router.put("/by-phone/{phone}", response_model=EnquiryOut)
 def update_enquiry_by_phone(phone: str, enquiry: EnquiryCreate, db: Session = Depends(get_db)):
     db_enquiry = db.query(Enquiry).filter(Enquiry.phone == phone).first()
     if not db_enquiry:
@@ -43,7 +46,7 @@ def update_enquiry_by_phone(phone: str, enquiry: EnquiryCreate, db: Session = De
     return db_enquiry
 
 # Delete enquiry by phone number
-@router.delete("/enquiry/by-phone/{phone}", response_model=dict)
+@router.delete("/by-phone/{phone}", response_model=dict)
 def delete_enquiry_by_phone(phone: str, db: Session = Depends(get_db)):
     db_enquiry = db.query(Enquiry).filter(Enquiry.phone == phone).first()
     if not db_enquiry:

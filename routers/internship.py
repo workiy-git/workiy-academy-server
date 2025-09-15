@@ -8,7 +8,7 @@ from schemas import internship as internship_schema
 from crud import internship as internship_crud
 
 router = APIRouter(
-    prefix="/internship",
+    prefix="/api/internship",
     tags=["internship"]
 )
 @router.put("/by-phone/{phone}", response_model=internship_schema.InternshipApplicationOut)
