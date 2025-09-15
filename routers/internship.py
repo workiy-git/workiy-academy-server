@@ -31,13 +31,13 @@ def delete_internship_by_phone(phone: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Internship application not found")
     return {"ok": True}
 
-@router.post("/", response_model=internship_schema.InternshipApplicationOut)
+@router.post("", response_model=internship_schema.InternshipApplicationOut)
 def create_internship_application(internship: internship_schema.InternshipApplicationCreate, db: Session = Depends(get_db)):
     return internship_crud.create_internship_application(db, internship)
 
 from typing import Optional
 
-@router.get("/", response_model=List[internship_schema.InternshipApplicationOut])
+@router.get("", response_model=List[internship_schema.InternshipApplicationOut])
 def read_internship_applications(
     skip: int = 0,
     limit: int = 100,
