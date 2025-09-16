@@ -11,7 +11,7 @@ from crud.course import (
     delete_course_crud
 )
 
-router = APIRouter(prefix="/api/courses", tags=["courses"])
+router = APIRouter(tags=["courses"])
 
 @router.post("", response_model=CourseOut)
 def create_course(course: CourseCreate, db: Session = Depends(get_db)):
