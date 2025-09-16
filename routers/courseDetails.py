@@ -11,7 +11,7 @@ from crud.courseDetails import (
 from schemas.courseDetails import CourseDetailsCreate, CourseDetailsOut
 from database import get_db
 
-router = APIRouter(prefix="/api/course-details", tags=["course-details"])
+router = APIRouter(tags=["course-details"])
 
 @router.post("", response_model=CourseDetailsOut)
 def create(course: CourseDetailsCreate, db: Session = Depends(get_db)):

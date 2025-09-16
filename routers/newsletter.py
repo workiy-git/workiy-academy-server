@@ -4,7 +4,7 @@ from database import get_db
 from models.newsletter import Newsletter
 from schemas.newsletter import NewsletterCreate, NewsletterUpdate, NewsletterOut
 
-router = APIRouter(prefix="/api/newsletter", tags=["Newsletter"])
+router = APIRouter(tags=["Newsletter"])
 
 @router.post("", response_model=NewsletterOut)
 def create_newsletter(newsletter: NewsletterCreate, db: Session = Depends(get_db)):

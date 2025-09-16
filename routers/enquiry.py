@@ -7,7 +7,6 @@ from models.enquiry import Enquiry
 from typing import List
 
 router = APIRouter(
-    prefix="/api/enquiry",
     tags=["enquiry"]
 )
 

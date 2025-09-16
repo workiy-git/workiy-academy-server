@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from config import CORS_ORIGINS
 from database import Base, engine
 import models
-from routers import api_router  
+from routers.api import api_router
 
 # FastAPI App
 app = FastAPI()
