@@ -6,10 +6,10 @@ from database import get_db
 from models import internship as internship_model
 from schemas import internship as internship_schema
 from crud import internship as internship_crud
+from utils.email_utils import send_email, send_email_admin
+from datetime import datetime
 
-router = APIRouter(
-    tags=["internship"]
-)
+router = APIRouter()
 @router.put("/by-phone/{phone}", response_model=internship_schema.InternshipApplicationOut)
 def update_internship_by_phone(phone: str, internship: internship_schema.InternshipApplicationCreate, db: Session = Depends(get_db)):
     db_app = internship_crud.get_internship_application_by_phone(db, phone)
@@ -32,6 +32,28 @@ def delete_internship_by_phone(phone: str, db: Session = Depends(get_db)):
 
 @router.post("", response_model=internship_schema.InternshipApplicationOut)
 def create_internship_application(internship: internship_schema.InternshipApplicationCreate, db: Session = Depends(get_db)):
+    adminsubject = "New Internship Submission - Workiy Academy"
+    adminmessage = (
+        "Hello Admin,\n\n"
+        "A new internship application has been submitted at Workiy Academy.\n\n"
+        f"Applicant Email: {internship.email}\n"
+        f"Applicant Name: {internship.fullName}\n"
+        f"Submission Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+        "Thank you for reviewing and supporting our internship program!\n\n"
+        "– Workiy Academy System"
+    )
+
+    send_email_admin(adminsubject, adminmessage)
+    
+    usersubject = "Workiy Academy - Internship Application Received"
+    usermessage = (
+        f"Hello {internship.fullName},\n\n"
+        "Thank you for submitting your internship application to Workiy Academy! "
+        "Our team will review your details and get back to you shortly with the next steps.\n\n"
+        "Best regards,\n"
+        "The Workiy Academy Team"
+    )
+    send_email(internship.email, usersubject, usermessage)
     return internship_crud.create_internship_application(db, internship)
 
 from typing import Optional
