@@ -38,40 +38,39 @@ def submit_enquiry(enquiry: EnquiryCreate, db: Session = Depends(get_db)):
     
     return db_enquiry
 
+
 # Get all enquiries
 @router.get("", response_model=List[EnquiryOut])
 def get_enquiries(db: Session = Depends(get_db)):
-    return db.query(Enquiry).all()
+    from crud.enquiry import get_enquiries
+    return get_enquiries(db)
 
-# Get enquiry by phone number
-@router.get("/by-phone/{phone}", response_model=EnquiryOut)
-def get_enquiry_by_phone(phone: str, db: Session = Depends(get_db)):
-    db_enquiry = db.query(Enquiry).filter(Enquiry.phone == phone).first()
+
+# Get all enquiries by phone
+@router.get("/{phone}", response_model=List[EnquiryOut])
+def get_enquiry(phone: str, db: Session = Depends(get_db)):
+    from crud.enquiry import get_enquiry
+    db_enquiries = get_enquiry(db, phone)
+    if not db_enquiries:
+        raise HTTPException(status_code=404, detail="Enquiry not found")
+    return [EnquiryOut.from_orm(e) for e in db_enquiries]
+
+
+# Update enquiry by id 
+@router.put("/{enquiry_id}", response_model=EnquiryOut)
+def update_enquiry(enquiry_id: int, enquiry: EnquiryCreate, db: Session = Depends(get_db)):
+    from crud.enquiry import update_enquiry
+    db_enquiry = update_enquiry(db, enquiry_id, enquiry)
     if not db_enquiry:
         raise HTTPException(status_code=404, detail="Enquiry not found")
     return db_enquiry
 
-# Update enquiry by phone number
-@router.put("/by-phone/{phone}", response_model=EnquiryOut)
-def update_enquiry_by_phone(phone: str, enquiry: EnquiryCreate, db: Session = Depends(get_db)):
-    db_enquiry = db.query(Enquiry).filter(Enquiry.phone == phone).first()
-    if not db_enquiry:
-        raise HTTPException(status_code=404, detail="Enquiry not found")
-    db_enquiry.firstName = enquiry.firstName
-    db_enquiry.lastName = enquiry.lastName
-    db_enquiry.email = enquiry.email
-    db_enquiry.phone = enquiry.phone
-    db_enquiry.message = enquiry.message
-    db.commit()
-    db.refresh(db_enquiry)
-    return db_enquiry
 
-# Delete enquiry by phone number
-@router.delete("/by-phone/{phone}", response_model=dict)
-def delete_enquiry_by_phone(phone: str, db: Session = Depends(get_db)):
-    db_enquiry = db.query(Enquiry).filter(Enquiry.phone == phone).first()
+# Delete enquiry by id
+@router.delete("/{enquiry_id}", response_model=dict)
+def delete_enquiry(enquiry_id: int, db: Session = Depends(get_db)):
+    from crud.enquiry import delete_enquiry
+    db_enquiry = delete_enquiry(db, enquiry_id)
     if not db_enquiry:
         raise HTTPException(status_code=404, detail="Enquiry not found")
-    db.delete(db_enquiry)
-    db.commit()
     return {"detail": "Enquiry deleted"}
