@@ -17,6 +17,9 @@ def create_newsletter(db: Session, newsletter: NewsletterCreate):
 def get_newsletters(db: Session):
 	return db.query(Newsletter).all()
 
+def get_newsletter_by_email(db: Session, email: str):
+	return db.query(Newsletter).filter(Newsletter.email == email).all()
+
 def update_newsletter(db: Session, newsletter_id: int, newsletter: NewsletterUpdate):
 	db_newsletter = db.query(Newsletter).filter(Newsletter.id == newsletter_id).first()
 	if not db_newsletter:

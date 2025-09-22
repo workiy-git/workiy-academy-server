@@ -41,6 +41,14 @@ def create_newsletter_route(newsletter: NewsletterCreate, db: Session = Depends(
 def get_newsletters_route(db: Session = Depends(get_db)):
     return get_newsletters(db)
 
+@router.get("/{email}", response_model=list[NewsletterOut])
+def get_newsletter_by_email_route(email: str, db: Session = Depends(get_db)):
+    from crud.newsletter import get_newsletter_by_email
+    newsletters = get_newsletter_by_email(db, email)
+    if not newsletters:
+        raise HTTPException(status_code=404, detail="No newsletters found for this email")
+    return newsletters
+
 @router.put("/{newsletter_id}", response_model=NewsletterOut)
 def update_newsletter_route(newsletter_id: int, newsletter: NewsletterUpdate, db: Session = Depends(get_db)):
     db_newsletter = update_newsletter(db, newsletter_id, newsletter)

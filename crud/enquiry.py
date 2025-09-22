@@ -16,8 +16,8 @@ def create_enquiry(db: Session, enquiry: EnquiryCreate):
 	db.refresh(db_enquiry)
 	return db_enquiry
 
-def get_enquiry(db: Session, enquiry_id: int):
-	return db.query(Enquiry).filter(Enquiry.id == enquiry_id).first()
+def get_enquiry(db: Session, phone: str):
+	return db.query(Enquiry).filter(Enquiry.phone == phone).all()
 
 def get_enquiries(db: Session, skip: int = 0, limit: int = 100):
 	return db.query(Enquiry).offset(skip).limit(limit).all()
