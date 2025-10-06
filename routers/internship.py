@@ -39,7 +39,7 @@ def create_internship(internship: InternshipCreate, db: Session = Depends(get_db
 
 
 # GET: List internships
-@router.get("/", response_model=List[InternshipOut])
+@router.get("", response_model=List[InternshipOut])
 def read_internships(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 	return crud_internship.get_internships(db, skip=skip, limit=limit)
 
