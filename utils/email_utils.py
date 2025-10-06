@@ -5,7 +5,7 @@ from email.mime.multipart import MIMEMultipart
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 SMTP_USER = "workiytechnologies@gmail.com"  # Replace with your email
-SMTP_PASS = "xhnx fgtn yxaf dgbr"    # Replace with your app password
+SMTP_PASS = "oopn bshm lvrp dmmz"    # Replace with your app password
 ADMIN_EMAIL = "sathish.deivasigamani@workiy.ca"
 
 def send_email(to_email, subject, message):
